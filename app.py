@@ -21,6 +21,8 @@ line_bot_api = LineBotApi('EFaaQXDQoCQOpmUDUzp3I7Q6sUfs9Y5DFpVu1Ifv5RvbKlEA4nR0A
 # 必須放上自己的Channel Secret
 handler = WebhookHandler('a7b81bff79cd317a265dd15b56afa313')
 
+#line_bot_api.push_message('Ud0b91488c829a40a43d1c5c95050540e', TextSendMessage(text='你可以開始了'))
+
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -38,10 +40,48 @@ def callback():
 
 #訊息傳遞區塊
 ##### 基本上程式編輯都在這個function #####
+
+def Gender():
+    gender = input('請輸入性別（男/女）：')
+    while gender not in {'男','女'}:
+        line_bot_api.reply_message('<reply_token>', TextSendMessage('輸入錯誤'))
+        gender = input('請輸入性別（男/女）：')
+    return gender
+
+def Height():
+    height = input('請輸入身高（公分）：')
+    while height.isdigit() == False:
+        line_bot_api.reply_message('<reply_token>', TextSendMessage('輸入錯誤'))
+        height = input('請重新輸入身高（公分）：')
+    return int(height)
+
+def Weight():
+    weight = input('請輸入體重（公斤）：')
+    while weight.isdigit() == False:
+        line_bot_api.reply_message('<reply_token>', TextSendMessage('輸入錯誤'))
+        weight = input('請重新輸入體重（公斤）：')
+    return int(weight)
+
+def Acitivity():
+    acitivity = input('請輸入平日工作量（輕度/中度/重度）:')
+    while acitivity not in {'輕度','中度','重度','輕','中','重'}:
+        line_bot_api.reply_message('<reply_token>', TextSendMessage('輸入錯誤'))
+        acitivity = input('請輸入平日工作量（輕度/中度／重度）:')
+    return acitivity
+
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    message = TextSendMessage(text=event.message.text)
-    line_bot_api.reply_message(event.reply_token,message)
+    message = event.message.text
+    if '開啟機器人' in message:
+        try:
+            Gender()
+            Height()
+            Weight() 
+            Acitivity()
+        except LineBotApiError:
+            line_bot_api.reply_message('<reply_token>', TextSendMessage('資料未順利傳輸'))
+        else:
+            line_bot_api.reply_message('<reply_token>', TextSendMessage('資料已輸入完成'))
     
 #主程式
 import os if __name__ == "__main__":
