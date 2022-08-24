@@ -1,11 +1,8 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[ ]:
-
-
 #載入LineBot所需要的模組
-import json, re, pandas, numpy
+import json, 
+import re
+import pandas
+import numpy as np
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError, LineBotApiError
 from linebot.models import *
@@ -25,26 +22,25 @@ line_bot_api.push_message('Ud0b91488c829a40a43d1c5c95050540e', TextSendMessage(t
 @app.route("/callback", methods=['POST'])
 def callback():
 　　# get X-Line-Signature header value
-　　signature = request.headers['X-Line-Signature']
+    signature = request.headers['X-Line-Signature']
 　　# get request body as text
-　　body = request.get_data(as_text=True)
-　　app.logger.info("Request body: " + body)
+    body = request.get_data(as_text=True)
+    app.logger.info("Request body: " + body)
 　　# handle webhook body
-　　try:
-　　　　handler.handle(body, signature)
-　　except InvalidSignatureError:
-　　　　abort(400)
-　　return 'OK'
+    try:
+        handler.handle(body, signature)
+    except InvalidSignatureError:
+        abort(400)
+    return 'OK'
 
 #訊息傳遞區塊
 ##### 基本上程式編輯都在這個function #####
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-　　message = TextSendMessage(text=event.message.text)
-　　line_bot_api.reply_message(event.reply_token,message)
+    message = TextSendMessage(text=event.message.text)
+    line_bot_api.reply_message(event.reply_token,message)
     
 #主程式
 import os if __name__ == "__main__":
-　　port = int(os.environ.get('PORT', 5000))
-　　app.run(host='0.0.0.0', port=port)
-
+port = int(os.environ.get('PORT', 5000))
+app.run(host='0.0.0.0', port=port)
