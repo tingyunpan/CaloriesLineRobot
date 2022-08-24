@@ -1,5 +1,5 @@
 #載入LineBot所需要的模組
-import json, 
+import json
 import re
 import pandas
 import numpy as np
