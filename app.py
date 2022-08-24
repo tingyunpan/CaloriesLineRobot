@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[ ]:
+
+
 #載入LineBot所需要的模組
 import json
 import re
@@ -15,7 +21,7 @@ line_bot_api = LineBotApi('EFaaQXDQoCQOpmUDUzp3I7Q6sUfs9Y5DFpVu1Ifv5RvbKlEA4nR0A
 # 必須放上自己的Channel Secret
 handler = WebhookHandler('a7b81bff79cd317a265dd15b56afa313')
 
-line_bot_api.push_message('Ud0b91488c829a40a43d1c5c95050540e', TextSendMessage(text='你可以開始了'))
+line_bot_api.push_message('1657409348', TextSendMessage(text='你可以開始了'))
 
 
 # 監聽所有來自 /callback 的 Post Request
@@ -44,3 +50,4 @@ def handle_message(event):
 import os if __name__ == "__main__":
 port = int(os.environ.get('PORT', 5000))
 app.run(host='0.0.0.0', port=port)
+
