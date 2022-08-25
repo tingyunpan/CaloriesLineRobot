@@ -45,5 +45,7 @@ def handle_message(event):
 #主程式
 import os 
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+    from wsgiref.simple_server import make_server
+    server = make_server('0.0.0.0',5000,app)
+    Server.serve_forever()
+    app.run()
