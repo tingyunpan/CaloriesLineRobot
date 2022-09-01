@@ -1,0 +1,8 @@
+# Function dependencies, for example:
+# package>=version
+line-bot-sdk
+pandas
+flask
+numpy
+gspread
+datetime
