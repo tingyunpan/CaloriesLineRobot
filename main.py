@@ -69,7 +69,7 @@ def handle_message(event):
             try:
                 info_sheet.append_row([insert_time,user_id,height,weight,activity])
                 user_gsheet = client.add_worksheet(title=user_gsheet_name, rows=1000, cols=20)
-                titles = ['time','user_id','食物項目','增加熱量','運動項目','消耗熱量','今日剩餘熱量']
+                titles = ['time','user_id','食物名','＋熱量','運動名','－熱量']
                 user_gsheet.append_row(titles)
                 line_reply(event,'基本資料已填寫成功')
             except:
@@ -158,8 +158,6 @@ def handle_message(event):
         user_gsheet = client.worksheet(user_gsheet_name)
         today = now_time()[:11]
         col_values_list = user_gsheet.col_values(1)
-        #pd.set_option('display.unicode.ambiguous_as_wide',True)
-        #pd.set_option('display.unicode.east_asian_width',True)
         row_num = []
         for i in col_values_list:
             if today in i:
@@ -191,10 +189,34 @@ def handle_message(event):
                 line_reply(event,'無法成功列印')
         else:
             line_reply(event,'今天還沒有紀錄喔！')
+    
+    elif txt == '使用說明':
+        line_bot_api.reply_message(
+        event.reply_token, [
+        TextSendMessage('''1.個人資料/n
+        若需修改資料，請一次輸入一項欲修改的項目。/n
+        如「修改身高 170cm」、「修改活動量 中度」等。/n
+        若需查看目前資料，請輸入「查看個人資料」。'''),
+        TextSendMessage('''2.查詢食物與運動熱量/n
+        請輸入「查詢+食物或運動名稱」。/n
+        如「查詢王子麵」、「查詢瑜伽」等。'''),
+        TextSendMessage('''3.新增紀錄熱量/n
+        食物：請輸入「新增食物名稱/份量(數字即可)」。/n
+        如「新增王子麵/1」。/n
+        運動：請輸入「新增運動名稱/執行小時數(數字即可)」/n
+        如「新增瑜伽/2」。'''),
+        TextSendMessage('''4.查看當天紀錄/n
+        輸入「查看本日熱量資料」即可查詢。''')])
         
     else:
         line_reply(event,'我不清楚您在說什麼，請確認輸入格式')
                 
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
+
+
+# In[ ]:
+
+
+
 
